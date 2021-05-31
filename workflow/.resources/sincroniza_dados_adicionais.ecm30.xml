@@ -4,12 +4,12 @@
       <companyId>1</companyId>
       <processId>sincroniza_dados_adicionais</processId>
     </processDefinitionPK>
-    <processDescription>sincroniza_dados_adicionais</processDescription>
+    <processDescription>Sincroniza os dados adicionais dos colaboradores</processDescription>
     <instruction></instruction>
     <active>true</active>
     <publicProcess>false</publicProcess>
     <volumeId>Default</volumeId>
-    <categoryId></categoryId>
+    <categoryId>Integrações.Digte</categoryId>
     <managerEngineAllocationId>Papel</managerEngineAllocationId>
     <managerEngineAllocationConfiguration>&lt;AssignmentController&gt;&lt;Role&gt;admin&lt;/Role&gt;&lt;/AssignmentController&gt;</managerEngineAllocationConfiguration>
     <snapshotFrequency>0</snapshotFrequency>
@@ -28,8 +28,8 @@
   <ProcessDefinitionVersion>
     <processDefinitionVersionPK>
       <companyId>1</companyId>
-      <processId>sincroniza_dados_adicionais</processId>
-      <version>2</version>
+      <processId>Sincroniza os dados adicionais dos colaboradores</processId>
+      <version>8</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>0</formId>
@@ -434,292 +434,332 @@
         <processId>sincroniza_dados_adicionais</processId>
         <version>1</version>
       </workflowProcessEventPK>
-      <eventDescription>var parentDocumentId = 0;
-var colleagueId = &quot;&quot;;
-var DATASET_NAME = &quot;fdwt_campos_adicionais_usuario&quot;;
-var FLUIG_DOMAIN = &quot;&lt;DOMINIO_DO_FLUIG&gt;&quot;; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080
-var fluigCompanyId = &quot;&quot;;
-var fluigUsuario = &quot;&quot;;
-var fluigSenha = &quot;&quot;;
-
-function servicetask4(attempt, message) {
-	log.info(&quot;@@ Inicio do servico sincroniza_dados_adicionais&quot;);
-	
-	try {
-		// Credenciais para consumo do serviço de fichas do fluig (ECMCardService)
-		// Preencher as variáveis &apos;fluigUsuario&apos; e &apos;fluigSenha&apos; com a identificação e a senha de um usuário com papel admin de seu ambiente fluig alvo
-		// Você pode inserir as credenciais de acesso ao RP nesta sessão também
-		fluigCompanyId = getValue(&quot;WKCompany&quot;);
-		fluigUsuario = &quot;&lt;CODIGO_DO_USUARIO&gt;&quot;; // Informe aqui a identificação do usuário
-		fluigSenha = &quot;&lt;SENHA_DO_USUARIO&gt;&quot;; // Informe aqui a senha do usuário
-		
-		// Acesso ao RP
-		// Implemente aqui o acesso ao seu RP retornando as seguintes informações:
-		// Precisamos das seguintes ações:
-		// 1. Para cada cargo retornado de seu RP, preencha o objeto &apos;objDadoAdicional&apos; com as devidas informações
-		// 2. Para cada &apos;objDadoAdicional&apos; criado, adicione o mesmo no array &apos;resultSet&apos;
-		// *campo de preenchimento obrigatório
-
-		var resultSet = [];
-
-		// Inicio - Seu trecho de código para incluir os dados adicionais no array resultSet
-			var objDadoAdicional = {
-				aniversarioDia: &quot;05&quot;, // 1. aniversarioDia: dia da data de nascimento do colaborador (ex. de preenchimento: &apos;05&apos;)
-                aniversarioMes: &quot;12&quot;, // 2. aniversarioMes: mes da data de nascimento do colaborador (ex. de preenchimento: &apos;09&apos;)
-                celular: &quot;(11) 96580-6589&quot;, // 3. celular: celular do colaborador
-                dataInicioEmpresa: &quot;12/05/1995&quot;, // 4. dataInicioEmpresa: data de ingresso do colaborador na empresa (ex. de preenchimento: &apos;05/08/1995&apos;)
-                cargo: &quot;465465&quot;, // 5. cargo: código do cargo do colaborador
-                dataNascimento: &quot;12/04/1980&quot;, // 6. dataNascimento: data de nascimento do colaborador (ex. de preenchimento: &apos;05/08/1995&apos;)
-                departamento: &quot;654654&quot;, // 7. departamento: código do departamento do colaborador
-                email: &quot;contato@mail.com.br&quot;, // 8. email: e-mail do colaborador. Caso o colaborador possua um usuário do fluig, preencha com o e-mail de cadastro do fluig, se não possuir preencha com &apos;.&apos;
-                empresa: &quot;7817236&quot;, // 9. empresa: código da empresa do colaborador
-                genero: &quot;masculino&quot;, // 10. genero: gênero do colaborador (ex. de preenchimento: &apos;masculino&apos; ou &apos;feminino&apos;)
-                idPessoal: &quot;456.987.456-32&quot;, // 11. idPessoal: CPF ou RG do colaborador
-                login: &quot;joao.deus&quot;, // 12. login: caso o colaborador possua um usuário do fluig, preencha com o login do fluig, se não possuir preencha com &apos;.&apos;
-                matricula: &quot;joao.deus.1&quot;, // 13. matricula: caso o colaborador possua um usuário do fluig, preencha com a matrícula do fluig, se não possuir preencha com &apos;.&apos;
-                nome: &quot;João&quot;, // 14. nome: primeiro nome do colaborador
-                nomeCargo: &quot;Desenvolvedor&quot;, // 15. nomeCargo: nome do cargo do colaborador
-                nomeCompleto: &quot;João de Deus da Silva&quot;, // 16. *nomeCompleto: nome completo do colaborador
-                nomeDepartamento: &quot;TI&quot;, // 17. nomeDepartamento: nome do departamento do colaborador
-                nomeEmpresa: &quot;Digte&quot;, // 18. nomeEmpresa: nome da empresa do colaborador
-                nomeUnidade: &quot;Unidade Zona Norte&quot;, // 19. nomeUnidade: nome da unidade do colaborador
-                sobrenome: &quot;de Deus da Silva&quot;, // 20. sobrenome: sobrenome do colaborador
-                telefone: &quot;(11) 6580-6589&quot;, // 21. telefone: telefone do colaborador
-                unidade: &quot;312873&quot; // 22. unidade: código da unidade do colaborador
-			};
-
-			resultSet.push(objDadoAdicional);
-		// Fim - Seu trecho de código para incluir os dados adicionais no array resultSet
-
-        // A partir daqui não é necessário alterações no código
-        synchronizeCards(resultSet);
-
-		log.info(&quot;@@ Fim do servico sincroniza_dados_adicionais&quot;);
-
-	} catch (e) {
-		log.info(&quot;@@ Erro, estourou uma excecao&quot;);
-		log.info(&quot;@@ e.message: &quot; + e.toString());
-		log.info(&quot;@@ Fim do servico sincroniza_dados_adicionais&quot;);
-	}
-}
-
-function synchronizeCards(resultSet) {
-    for (var i = 0; i &lt; resultSet.length; i++) {
-        var objDadoAdicional = resultSet[i];
-        var constraints = []
-
-        if (objDadoAdicional.matricula == &apos;.&apos; || objDadoAdicional.login == &apos;.&apos; || objDadoAdicional.email == &apos;.&apos;) {
-            constraints.push(DatasetFactory.createConstraint(&quot;nomeCompleto&quot;, objDadoAdicional.nomeCompleto, objDadoAdicional.nomeCompleto, ConstraintType.MUST))       
-        }
-        else {
-            constraints.push(DatasetFactory.createConstraint(&quot;matricula&quot;, objDadoAdicional.matricula, objDadoAdicional.matricula, ConstraintType.SHOULD))
-            constraints.push(DatasetFactory.createConstraint(&quot;login&quot;, objDadoAdicional.login, objDadoAdicional.login, ConstraintType.SHOULD))
-            constraints.push(DatasetFactory.createConstraint(&quot;email&quot;, objDadoAdicional.email, objDadoAdicional.email, ConstraintType.SHOULD))
-        }
-        
-        constraints.push(DatasetFactory.createConstraint(&quot;metadata#active&quot;, true, true, ConstraintType.MUST))
-        
-        var dsDadosAdicionais = DatasetFactory.getDataset(DATASET_NAME, null, constraints, null);
-        
-        if (dsDadosAdicionais != null &amp;&amp; dsDadosAdicionais.rowsCount &gt; 0) {
-            if (needsToUpdate(objDadoAdicional, dsDadosAdicionais)) {
-                updateCard(dsDadosAdicionais, objDadoAdicional);
-            }
-            else {
-                continue;
-            }
-        }
-        else {
-            createCard(objDadoAdicional);
-        }
-    }
-}
-
-function needsToUpdate(objDadoAdicional, dsDadosAdicionais) {
-    var update = false;
-    var arrFields = [&quot;aniversarioDia&quot;, &quot;aniversarioMes&quot;, &quot;celular&quot;, &quot;dataInicioEmpresa&quot;, &quot;cargo&quot;, &quot;dataNascimento&quot;, &quot;departamento&quot;, &quot;email&quot;, &quot;empresa&quot;, &quot;genero&quot;, &quot;idPessoal&quot;, &quot;login&quot;, &quot;matricula&quot;, &quot;nome&quot;, &quot;nomeCargo&quot;, &quot;nomeCompleto&quot;, &quot;nomeDepartamento&quot;, &quot;nomeEmpresa&quot;, &quot;nomeUnidade&quot;, &quot;sobrenome&quot;, &quot;telefone&quot;, &quot;unidade&quot;];
-    
-    for (var i = 0; i &lt; arrFields.length; i++) {
-		if (dsDadosAdicionais.getValue(0, arrFields[i]) != objDadoAdicional[arrFields[i]]) {
-			update = true;
-		}
-	}
-
-	return update;
-}
-
-function updateCard(dsDadosAdicionais, objDadoAdicional) {
-	var cardId = dsDadosAdicionais.getValue(0, &quot;metadata#Id&quot;);
-
-	if (cardId != 0) {
-		var serviceUrl = FLUIG_DOMAIN + &quot;/webdesk/ECMCardService?wsdl&quot;
-		var javaNetUrl = new java.net.URL(serviceUrl);
-
-		var connection = javaNetUrl.openConnection();
-		connection.setDoOutput(true);
-		connection.setRequestMethod(&quot;POST&quot;);
-		connection.setRequestProperty(&quot;Content-Type&quot;, &quot;text/xml; charset=utf-8&quot;);
-		connection.setRequestProperty(&quot;SOAPAction&quot;, &quot;updateCardData&quot;);
-		
-		var arrFields = returnFormFields(objDadoAdicional)
-
-        var postData = new java.lang.StringBuilder();
-        postData = getUpdateXML(postData, cardId, arrFields);
-
-		var os = connection.getOutputStream();
-		os.write(postData.toString().getBytes());
-		os.flush();
-		
-		var responseCode = connection.getResponseCode();
-
-		log.info(&quot;@@ Atualizado dado adicional &quot; + objDadoAdicional.nomeCompleto + &quot;:&quot; + responseCode);
-	}
-	else {
-		return false;
-	}
-}
-
-function getUpdateXML(postData, cardId, arrFields) {
-    postData.append(&apos;&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:ws=&quot;http://ws.dm.ecm.technology.totvs.com/&quot;&gt;&apos;);
-        postData.append(&apos;&lt;soapenv:Header/&gt;&apos;);
-        postData.append(&apos;&lt;soapenv:Body&gt;&apos;);
-            postData.append(&apos;&lt;ws:updateCardData&gt;&apos;);
-                postData.append(&apos;&lt;companyId&gt;&apos; + fluigCompanyId + &apos;&lt;/companyId&gt;&apos;);
-                postData.append(&apos;&lt;username&gt;&apos; + fluigUsuario + &apos;&lt;/username&gt;&apos;);
-                postData.append(&apos;&lt;password&gt;&apos; + fluigSenha + &apos;&lt;/password&gt;&apos;);
-                postData.append(&apos;&lt;cardId&gt;&apos; + cardId + &apos;&lt;/cardId&gt;&apos;);
-                postData.append(&apos;&lt;cardData&gt;&apos;);
-                for (var i = 0; i &lt; arrFields.length; i++) {
-                    postData = treatUnixTimeStamp(&apos;item&apos;, arrFields, postData, i);
-                    postData.append(&apos;&lt;item&gt;&apos;);
-                        postData.append(&apos;&lt;field&gt;&apos; + arrFields[i].fieldName + &apos;&lt;/field&gt;&apos;);
-                        postData.append(&apos;&lt;value name=&quot;&apos; + arrFields[i].fieldName + &apos;&quot;&gt;&apos; + arrFields[i].fieldValue + &apos;&lt;/value&gt;&apos;);
-                    postData.append(&apos;&lt;/item&gt;&apos;);
-                }
-                postData.append(&apos;&lt;/cardData&gt;&apos;);
-            postData.append(&apos;&lt;/ws:updateCardData&gt;&apos;);
-        postData.append(&apos;&lt;/soapenv:Body&gt;&apos;);
-    postData.append(&apos;&lt;/soapenv:Envelope&gt;&apos;);
-
-    return postData;
-}
-
-function createCard (objDadoAdicional) {
-    if (parentDocumentId == 0) {
-		var c1 = DatasetFactory.createConstraint(&quot;datasetName&quot;, DATASET_NAME, DATASET_NAME, ConstraintType.MUST);
-		var c2 = DatasetFactory.createConstraint(&quot;activeVersion&quot;, true, true, ConstraintType.MUST);
-		var dsDocument = DatasetFactory.getDataset(&quot;document&quot;, null, [c1, c2], null);
-
-		if (dsDocument != null &amp;&amp; dsDocument.rowsCount &gt; 0) {
-			parentDocumentId = dsDocument.getValue(0, &quot;documentPK.documentId&quot;);
-			colleagueId = dsDocument.getValue(0, &quot;colleagueId&quot;);
-		}
-    }
-    
-	var serviceUrl = FLUIG_DOMAIN + &quot;/webdesk/ECMCardService?wsdl&quot;
-	var javaNetUrl = new java.net.URL(serviceUrl);
-
-	var connection = javaNetUrl.openConnection();
-    connection.setDoOutput(true);
-    connection.setRequestMethod(&quot;POST&quot;);
-    connection.setRequestProperty(&quot;Content-Type&quot;, &quot;text/xml; charset=utf-8&quot;);
-	connection.setRequestProperty(&quot;SOAPAction&quot;, &quot;createCard&quot;);
-	
-	var arrFields = returnFormFields(objDadoAdicional)
-
-    var postData = new java.lang.StringBuilder();
-    postData = getCreateXML(postData, arrFields, objDadoAdicional, parentDocumentId);
-	
-	var os = connection.getOutputStream();
-    os.write(postData.toString().getBytes());
-	os.flush();
-	
-	var responseCode = connection.getResponseCode();
-
-	log.info(&quot;@@ Criado dado adicional &quot; + objDadoAdicional.nomeCompleto + &quot;:&quot; + responseCode )
-}
-
-function getCreateXML(postData, arrFields, objDadoAdicional, parentDocumentId) {
-    postData.append(&apos;&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:ws=&quot;http://ws.dm.ecm.technology.totvs.com/&quot;&gt;&apos;);
-        postData.append(&apos;&lt;soapenv:Header/&gt;&apos;);
-        postData.append(&apos;&lt;soapenv:Body&gt;&apos;);
-            postData.append(&apos;&lt;ws:createCard&gt;&apos;);
-                postData.append(&apos;&lt;companyId&gt;&apos; + fluigCompanyId + &apos;&lt;/companyId&gt;&apos;);
-                postData.append(&apos;&lt;username&gt;&apos; + fluigUsuario + &apos;&lt;/username&gt;&apos;);
-                postData.append(&apos;&lt;password&gt;&apos; + fluigSenha + &apos;&lt;/password&gt;&apos;);
-                postData.append(&apos;&lt;card&gt;&apos;);
-                    postData.append(&apos;&lt;item&gt;&apos;);
-                    for (var i = 0; i &lt; arrFields.length; i++) {
-                        postData = treatUnixTimeStamp(&apos;cardData&apos;, arrFields, postData, i);
-                        postData.append(&apos;&lt;cardData&gt;&apos;);
-                            postData.append(&apos;&lt;field&gt;&apos; + arrFields[i].fieldName + &apos;&lt;/field&gt;&apos;);
-                            postData.append(&apos;&lt;value name=&quot;&apos; + arrFields[i].fieldName + &apos;&quot;&gt;&apos; + arrFields[i].fieldValue + &apos;&lt;/value&gt;&apos;);
-                        postData.append(&apos;&lt;/cardData&gt;&apos;);
-                    }
-                        postData.append(setDadosAdicionaisPermissions(arrFields, fluigCompanyId))
-                        postData.append(&apos;&lt;parentDocumentId&gt;&apos; + parentDocumentId + &apos;&lt;/parentDocumentId&gt;&apos;);
-                        postData.append(&apos;&lt;documentDescription&gt;&apos; + objDadoAdicional.cargoNome + &apos;&lt;/documentDescription&gt;&apos;);
-                        postData.append(&apos;&lt;inheritSecurity&gt;true&lt;/inheritSecurity&gt;&apos;)
-                    postData.append(&apos;&lt;/item&gt;&apos;);
-                postData.append(&apos;&lt;/card&gt;&apos;);
-        postData.append(&apos;&lt;/ws:createCard&gt;&apos;);
-        postData.append(&apos;&lt;/soapenv:Body&gt;&apos;);
-    postData.append(&apos;&lt;/soapenv:Envelope&gt;&apos;);
-    return postData;
-}
-
-function treatUnixTimeStamp(type, arrFields, postData, i) {
-    if (arrFields[i].fieldName == &quot;dataInicioEmpresa&quot; || arrFields[i].fieldName == &quot;dataNascimento&quot;) {
-        var dateUnixTimeStamp = Math.floor(new Date(arrFields[i].fieldValue).getTime()/1000)
-        postData.append(&apos;&lt;&apos; + type + &apos;&gt;&apos;);
-            postData.append(&apos;&lt;field&gt;&apos; + arrFields[i].fieldName + &apos;Ts&apos; + &apos;&lt;/field&gt;&apos;);
-            postData.append(&apos;&lt;value name=&quot;&apos; + arrFields[i].fieldName + &apos;Ts&apos; + &apos;&quot;&gt;&apos; + dateUnixTimeStamp + &apos;&lt;/value&gt;&apos;);
-        postData.append(&apos;&lt;/&apos; + type + &apos;&gt;&apos;);    
-    }
-
-    return postData;
-}
-
-function returnFormFields(objDadoAdicional) {    
-    var arrFields = [];
-    var arrColumns = [&quot;aniversarioDia&quot;, &quot;aniversarioMes&quot;, &quot;celular&quot;, &quot;dataInicioEmpresa&quot;, &quot;cargo&quot;, &quot;dataNascimento&quot;, &quot;departamento&quot;, &quot;email&quot;, &quot;empresa&quot;, &quot;genero&quot;, &quot;idPessoal&quot;, &quot;login&quot;, &quot;matricula&quot;, &quot;nome&quot;, &quot;nomeCargo&quot;, &quot;nomeCompleto&quot;, &quot;nomeDepartamento&quot;, &quot;nomeEmpresa&quot;, &quot;nomeUnidade&quot;, &quot;sobrenome&quot;, &quot;telefone&quot;, &quot;unidade&quot;];
-    
-    for (var i = 0; i &lt; arrColumns.length; i++) {
-        var fieldObj = {
-            fieldName: arrColumns[i],
-            fieldValue: objDadoAdicional[arrColumns[i]]
-        };
-        
-        arrFields.push(fieldObj);
-    }
-    
-    return arrFields;
-}
-
-function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {
-    var matricula = &quot;&quot;;
-    for (var i = 0; i &lt; arrFields.length; i++) {
-        if (arrFields[i].fieldName == &quot;matricula&quot; &amp;&amp; arrFields[i].fieldValue != &quot;&quot;) {
-            matricula = arrFields[i].fieldValue;
-        }
-    }
-
-    var xmlMarkup = &quot;&lt;docsecurity&gt;\
-        &lt;attributionType&gt;1&lt;/attributionType&gt;\
-        &lt;attributionValue&gt;&quot; + matricula + &quot;&lt;/attributionValue&gt;\
-        &lt;companyId&gt;&quot; + fluigCompanyId + &quot;&lt;/companyId&gt;\
-        &lt;documentId&gt;&lt;/documentId&gt;\
-        &lt;downloadEnabled&gt;true&lt;/downloadEnabled&gt;\
-        &lt;foo&gt;&lt;/foo&gt;\
-        &lt;permission&gt;true&lt;/permission&gt;\
-        &lt;securityLevel&gt;2&lt;/securityLevel&gt;\
-        &lt;securityVersion&gt;&lt;/securityVersion&gt;\
-        &lt;sequence&gt;&lt;/sequence&gt;\
-        &lt;showContent&gt;true&lt;/showContent&gt;\
-        &lt;version&gt;1000&lt;/version&gt;\
-    &lt;/docsecurity&gt;&quot;;
-
-    return xmlMarkup;
+      <eventDescription>var parentDocumentId = 0;&#xd;
+var colleagueId = &quot;&quot;;&#xd;
+var DATASET_NAME = &quot;fdwt_campos_adicionais_usuario&quot;;&#xd;
+var FLUIG_DOMAIN = &quot;http://minhahomolog.cnc.org.br&quot;; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080&#xd;
+var fluigCompanyId = &quot;&quot;;&#xd;
+var fluigUsuario = &quot;&quot;;&#xd;
+var fluigSenha = &quot;&quot;;&#xd;
+&#xd;
+function servicetask4(attempt, message) {&#xd;
+	log.info(&quot;@@ Inicio do servico sincroniza_dados_adicionais&quot;);&#xd;
+	&#xd;
+	try {&#xd;
+		// Credenciais para consumo do serviço de fichas do fluig (ECMCardService)&#xd;
+		// Preencher as variáveis &apos;fluigUsuario&apos; e &apos;fluigSenha&apos; com a identificação e a senha de um usuário com papel admin de seu ambiente fluig alvo&#xd;
+		// Você pode inserir as credenciais de acesso ao RP nesta sessão também&#xd;
+		fluigCompanyId = getValue(&quot;WKCompany&quot;);&#xd;
+		fluigUsuario = &quot;integracao&quot;; // Informe aqui a identificação do usuário&#xd;
+		fluigSenha = &quot;!2018@Minha!&quot;; // Informe aqui a senha do usuário&#xd;
+		&#xd;
+		// Acesso ao RP&#xd;
+		// Implemente aqui o acesso ao seu RP retornando as seguintes informações:&#xd;
+		// Precisamos das seguintes ações:&#xd;
+		// 1. Para cada cargo retornado de seu RP, preencha o objeto &apos;objDadoAdicional&apos; com as devidas informações&#xd;
+		// 2. Para cada &apos;objDadoAdicional&apos; criado, adicione o mesmo no array &apos;resultSet&apos;&#xd;
+		// *campo de preenchimento obrigatório&#xd;
+		&#xd;
+	    // Executando chamada de dataset&#xd;
+	    var datasetReturn = DatasetFactory.getDataset(&quot;_RM_DADOS_ADICIONAIS_NOVOS&quot;, null, null, null);&#xd;
+	    var quantidade = datasetReturn.values.length;&#xd;
+	    &#xd;
+	    log.info(&quot;@@ _RM_DADOS_ADICIONAIS_NOVOS QTD: &quot;+quantidade);&#xd;
+		&#xd;
+	    // Verificando se existem registros&#xd;
+		if (quantidade &gt; 0 ) {&#xd;
+			&#xd;
+			for (var i = 0; i &lt; quantidade; i++)&#xd;
+			{&#xd;
+				&#xd;
+				var aniversarioDia 		= 	datasetReturn.getValue(i, &quot;DATANASCIMENTO_DIA&quot;);&#xd;
+				var aniversarioMes 		= 	datasetReturn.getValue(i, &quot;DATANASCIMENTO_MES&quot;);&#xd;
+				var celular				=	datasetReturn.getValue(i, &quot;TELEFONE&quot;);&#xd;
+				var dataInicioEmpresa	=	datasetReturn.getValue(i, &quot;DATAADMISSAO&quot;);&#xd;
+				var cargo				=	datasetReturn.getValue(i, &quot;CARGO_COD&quot;);&#xd;
+				var dataNascimento		=	datasetReturn.getValue(i, &quot;DATANASCIMENTO&quot;);&#xd;
+				var departamento		=	datasetReturn.getValue(i, &quot;DEPARTAMENTO&quot;);&#xd;
+				var email				=	datasetReturn.getValue(i, &quot;EMAIL&quot;);&#xd;
+				var empresa				=	&quot;1&quot;;&#xd;
+				var genero				=	datasetReturn.getValue(i, &quot;GENERO&quot;);&#xd;
+				var idPessoal			=	datasetReturn.getValue(i, &quot;CPF&quot;);&#xd;
+				var login				=	datasetReturn.getValue(i, &quot;CODUSUARIO&quot;);&#xd;
+				var matricula			=	datasetReturn.getValue(i, &quot;CODUSUARIO&quot;);&#xd;
+				var nome				=	datasetReturn.getValue(i, &quot;NOME_PRIMEIRO&quot;);&#xd;
+				var nomeCargo			=	datasetReturn.getValue(i, &quot;CARGO_NOME&quot;);&#xd;
+				var nomeCompleto		=	datasetReturn.getValue(i, &quot;NOME_COMPLETO&quot;);&#xd;
+				var nomeDepartamento	=	datasetReturn.getValue(i, &quot;NOME_DEPARTAMENTO&quot;);&#xd;
+				var nomeEmpresa			=	&quot;CNC&quot;;	&#xd;
+				var nomeUnidade			=	datasetReturn.getValue(i, &quot;NOME_UNIDADE&quot;);&#xd;
+				var sobrenome			=	datasetReturn.getValue(i, &quot;NOME_SOBRENOME&quot;);&#xd;
+				var telefone			=	datasetReturn.getValue(i, &quot;TELEFONE&quot;);&#xd;
+				var unidade				=	datasetReturn.getValue(i, &quot;EMPRESA&quot;);&#xd;
+				&#xd;
+				var resultSet = [];&#xd;
+	&#xd;
+				// Inicio - Seu trecho de código para incluir os dados adicionais no array resultSet&#xd;
+				var objDadoAdicional = {&#xd;
+					aniversarioDia: aniversarioDia, //&quot;05&quot;, // 1. aniversarioDia: dia da data de nascimento do colaborador (ex. de preenchimento: &apos;05&apos;)&#xd;
+	                aniversarioMes: aniversarioMes, //&quot;12&quot;, // 2. aniversarioMes: mes da data de nascimento do colaborador (ex. de preenchimento: &apos;09&apos;)&#xd;
+	                celular: celular, //&quot;(11) 96580-6589&quot;, // 3. celular: celular do colaborador&#xd;
+	                dataInicioEmpresa: dataInicioEmpresa, // &quot;12/05/1995&quot;, // 4. dataInicioEmpresa: data de ingresso do colaborador na empresa (ex. de preenchimento: &apos;05/08/1995&apos;)&#xd;
+	                cargo: cargo, // &quot;465465&quot;, // 5. cargo: código do cargo do colaborador&#xd;
+	                dataNascimento: dataNascimento, // &quot;12/04/1980&quot;, // 6. dataNascimento: data de nascimento do colaborador (ex. de preenchimento: &apos;05/08/1995&apos;)&#xd;
+	                departamento: departamento, //&quot;654654&quot;, // 7. departamento: código do departamento do colaborador&#xd;
+	                email: email, //&quot;contato@mail.com.br&quot;, // 8. email: e-mail do colaborador. Caso o colaborador possua um usuário do fluig, preencha com o e-mail de cadastro do fluig, se não possuir preencha com &apos;.&apos;&#xd;
+	                empresa: empresa, //&quot;7817236&quot;, // 9. empresa: código da empresa do colaborador&#xd;
+	                genero: genero, //&quot;masculino&quot;, // 10. genero: gênero do colaborador (ex. de preenchimento: &apos;masculino&apos; ou &apos;feminino&apos;)&#xd;
+	                idPessoal: idPessoal, //&quot;456.987.456-32&quot;, // 11. idPessoal: CPF ou RG do colaborador&#xd;
+	                login: login, //&quot;joao.deus&quot;, // 12. login: caso o colaborador possua um usuário do fluig, preencha com o login do fluig, se não possuir preencha com &apos;.&apos;&#xd;
+	                matricula: matricula, //&quot;joao.deus.1&quot;, // 13. matricula: caso o colaborador possua um usuário do fluig, preencha com a matrícula do fluig, se não possuir preencha com &apos;.&apos;&#xd;
+	                nome: nome, //&quot;João&quot;, // 14. nome: primeiro nome do colaborador&#xd;
+	                nomeCargo: nomeCargo, //&quot;Desenvolvedor&quot;, // 15. nomeCargo: nome do cargo do colaborador&#xd;
+	                nomeCompleto: nomeCompleto, //&quot;João de Deus da Silva&quot;, // 16. *nomeCompleto: nome completo do colaborador&#xd;
+	                nomeDepartamento: nomeDepartamento, //&quot;TI&quot;, // 17. nomeDepartamento: nome do departamento do colaborador&#xd;
+	                nomeEmpresa: nomeEmpresa, //&quot;Digte&quot;, // 18. nomeEmpresa: nome da empresa do colaborador&#xd;
+	                nomeUnidade: nomeUnidade, //&quot;Unidade Zona Norte&quot;, // 19. nomeUnidade: nome da unidade do colaborador&#xd;
+	                sobrenome: sobrenome, //&quot;de Deus da Silva&quot;, // 20. sobrenome: sobrenome do colaborador&#xd;
+	                telefone: telefone, //&quot;(11) 6580-6589&quot;, // 21. telefone: telefone do colaborador&#xd;
+	                unidade: unidade //&quot;312873&quot; // 22. unidade: código da unidade do colaborador&#xd;
+				};&#xd;
+				&#xd;
+				log.info(&quot;@@ _RM_DADOS_ADICIONAIS_NOVOS resultSet: &quot;+resultSet);&#xd;
+	&#xd;
+				resultSet.push(objDadoAdicional);&#xd;
+				// Fim - Seu trecho de código para incluir os dados adicionais no array resultSet&#xd;
+	&#xd;
+		        // A partir daqui não é necessário alterações no código&#xd;
+		        synchronizeCards(resultSet);&#xd;
+	&#xd;
+		        log.info(&quot;@@ Fim do servico sincroniza_dados_adicionais&quot;);&#xd;
+		   }&#xd;
+		&#xd;
+		}&#xd;
+&#xd;
+	} catch (e) {&#xd;
+		log.info(&quot;@@ Erro, estourou uma excecao&quot;);&#xd;
+		log.info(&quot;@@ e.message: &quot; + e.toString());&#xd;
+		log.info(&quot;@@ Fim do servico sincroniza_dados_adicionais&quot;);&#xd;
+	}&#xd;
+}&#xd;
+&#xd;
+function synchronizeCards(resultSet) {&#xd;
+    for (var i = 0; i &lt; resultSet.length; i++) {&#xd;
+        var objDadoAdicional = resultSet[i];&#xd;
+        var constraints = []&#xd;
+&#xd;
+        if (objDadoAdicional.matricula == &apos;.&apos; || objDadoAdicional.login == &apos;.&apos; || objDadoAdicional.email == &apos;.&apos;) {&#xd;
+            constraints.push(DatasetFactory.createConstraint(&quot;nomeCompleto&quot;, objDadoAdicional.nomeCompleto, objDadoAdicional.nomeCompleto, ConstraintType.MUST))       &#xd;
+        }&#xd;
+        else {&#xd;
+            constraints.push(DatasetFactory.createConstraint(&quot;matricula&quot;, objDadoAdicional.matricula, objDadoAdicional.matricula, ConstraintType.SHOULD))&#xd;
+            constraints.push(DatasetFactory.createConstraint(&quot;login&quot;, objDadoAdicional.login, objDadoAdicional.login, ConstraintType.SHOULD))&#xd;
+            constraints.push(DatasetFactory.createConstraint(&quot;email&quot;, objDadoAdicional.email, objDadoAdicional.email, ConstraintType.SHOULD))&#xd;
+        }&#xd;
+        &#xd;
+        constraints.push(DatasetFactory.createConstraint(&quot;metadata#active&quot;, true, true, ConstraintType.MUST))&#xd;
+        &#xd;
+        var dsDadosAdicionais = DatasetFactory.getDataset(DATASET_NAME, null, constraints, null);&#xd;
+        &#xd;
+        if (dsDadosAdicionais != null &amp;&amp; dsDadosAdicionais.rowsCount &gt; 0) {&#xd;
+            if (needsToUpdate(objDadoAdicional, dsDadosAdicionais)) {&#xd;
+                updateCard(dsDadosAdicionais, objDadoAdicional);&#xd;
+            }&#xd;
+            else {&#xd;
+                continue;&#xd;
+            }&#xd;
+        }&#xd;
+        else {&#xd;
+            createCard(objDadoAdicional);&#xd;
+        }&#xd;
+    }&#xd;
+}&#xd;
+&#xd;
+function needsToUpdate(objDadoAdicional, dsDadosAdicionais) {&#xd;
+    var update = false;&#xd;
+    var arrFields = [&quot;aniversarioDia&quot;, &quot;aniversarioMes&quot;, &quot;celular&quot;, &quot;dataInicioEmpresa&quot;, &quot;cargo&quot;, &quot;dataNascimento&quot;, &quot;departamento&quot;, &quot;email&quot;, &quot;empresa&quot;, &quot;genero&quot;, &quot;idPessoal&quot;, &quot;login&quot;, &quot;matricula&quot;, &quot;nome&quot;, &quot;nomeCargo&quot;, &quot;nomeCompleto&quot;, &quot;nomeDepartamento&quot;, &quot;nomeEmpresa&quot;, &quot;nomeUnidade&quot;, &quot;sobrenome&quot;, &quot;telefone&quot;, &quot;unidade&quot;];&#xd;
+    &#xd;
+    for (var i = 0; i &lt; arrFields.length; i++) {&#xd;
+		if (dsDadosAdicionais.getValue(0, arrFields[i]) != objDadoAdicional[arrFields[i]]) {&#xd;
+			update = true;&#xd;
+		}&#xd;
+	}&#xd;
+&#xd;
+	return update;&#xd;
+}&#xd;
+&#xd;
+function updateCard(dsDadosAdicionais, objDadoAdicional) {&#xd;
+	var cardId = dsDadosAdicionais.getValue(0, &quot;metadata#Id&quot;);&#xd;
+&#xd;
+	if (cardId != 0) {&#xd;
+		var serviceUrl = FLUIG_DOMAIN + &quot;/webdesk/ECMCardService?wsdl&quot;&#xd;
+		var javaNetUrl = new java.net.URL(serviceUrl);&#xd;
+&#xd;
+		var connection = javaNetUrl.openConnection();&#xd;
+		connection.setDoOutput(true);&#xd;
+		connection.setRequestMethod(&quot;POST&quot;);&#xd;
+		connection.setRequestProperty(&quot;Content-Type&quot;, &quot;text/xml; charset=utf-8&quot;);&#xd;
+		connection.setRequestProperty(&quot;SOAPAction&quot;, &quot;updateCardData&quot;);&#xd;
+		&#xd;
+		var arrFields = returnFormFields(objDadoAdicional)&#xd;
+&#xd;
+        var postData = new java.lang.StringBuilder();&#xd;
+        postData = getUpdateXML(postData, cardId, arrFields);&#xd;
+&#xd;
+		var os = connection.getOutputStream();&#xd;
+		os.write(postData.toString().getBytes());&#xd;
+		os.flush();&#xd;
+		&#xd;
+		var responseCode = connection.getResponseCode();&#xd;
+&#xd;
+		log.info(&quot;@@ Atualizado dado adicional &quot; + objDadoAdicional.nomeCompleto + &quot;:&quot; + responseCode);&#xd;
+	}&#xd;
+	else {&#xd;
+		return false;&#xd;
+	}&#xd;
+}&#xd;
+&#xd;
+function getUpdateXML(postData, cardId, arrFields) {&#xd;
+    postData.append(&apos;&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:ws=&quot;http://ws.dm.ecm.technology.totvs.com/&quot;&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;soapenv:Header/&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;soapenv:Body&gt;&apos;);&#xd;
+            postData.append(&apos;&lt;ws:updateCardData&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;companyId&gt;&apos; + fluigCompanyId + &apos;&lt;/companyId&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;username&gt;&apos; + fluigUsuario + &apos;&lt;/username&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;password&gt;&apos; + fluigSenha + &apos;&lt;/password&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;cardId&gt;&apos; + cardId + &apos;&lt;/cardId&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;cardData&gt;&apos;);&#xd;
+                for (var i = 0; i &lt; arrFields.length; i++) {&#xd;
+                    postData = treatUnixTimeStamp(&apos;item&apos;, arrFields, postData, i);&#xd;
+                    postData.append(&apos;&lt;item&gt;&apos;);&#xd;
+                        postData.append(&apos;&lt;field&gt;&apos; + arrFields[i].fieldName + &apos;&lt;/field&gt;&apos;);&#xd;
+                        postData.append(&apos;&lt;value name=&quot;&apos; + arrFields[i].fieldName + &apos;&quot;&gt;&apos; + arrFields[i].fieldValue + &apos;&lt;/value&gt;&apos;);&#xd;
+                    postData.append(&apos;&lt;/item&gt;&apos;);&#xd;
+                }&#xd;
+                postData.append(&apos;&lt;/cardData&gt;&apos;);&#xd;
+            postData.append(&apos;&lt;/ws:updateCardData&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;/soapenv:Body&gt;&apos;);&#xd;
+    postData.append(&apos;&lt;/soapenv:Envelope&gt;&apos;);&#xd;
+&#xd;
+    return postData;&#xd;
+}&#xd;
+&#xd;
+function createCard (objDadoAdicional) {&#xd;
+    if (parentDocumentId == 0) {&#xd;
+		var c1 = DatasetFactory.createConstraint(&quot;datasetName&quot;, DATASET_NAME, DATASET_NAME, ConstraintType.MUST);&#xd;
+		var c2 = DatasetFactory.createConstraint(&quot;activeVersion&quot;, true, true, ConstraintType.MUST);&#xd;
+		var dsDocument = DatasetFactory.getDataset(&quot;document&quot;, null, [c1, c2], null);&#xd;
+&#xd;
+		if (dsDocument != null &amp;&amp; dsDocument.rowsCount &gt; 0) {&#xd;
+			parentDocumentId = dsDocument.getValue(0, &quot;documentPK.documentId&quot;);&#xd;
+			colleagueId = dsDocument.getValue(0, &quot;colleagueId&quot;);&#xd;
+		}&#xd;
+    }&#xd;
+    &#xd;
+	var serviceUrl = FLUIG_DOMAIN + &quot;/webdesk/ECMCardService?wsdl&quot;&#xd;
+	var javaNetUrl = new java.net.URL(serviceUrl);&#xd;
+&#xd;
+	var connection = javaNetUrl.openConnection();&#xd;
+    connection.setDoOutput(true);&#xd;
+    connection.setRequestMethod(&quot;POST&quot;);&#xd;
+    connection.setRequestProperty(&quot;Content-Type&quot;, &quot;text/xml; charset=utf-8&quot;);&#xd;
+	connection.setRequestProperty(&quot;SOAPAction&quot;, &quot;createCard&quot;);&#xd;
+	&#xd;
+	var arrFields = returnFormFields(objDadoAdicional)&#xd;
+&#xd;
+    var postData = new java.lang.StringBuilder();&#xd;
+    postData = getCreateXML(postData, arrFields, objDadoAdicional, parentDocumentId);&#xd;
+	&#xd;
+	var os = connection.getOutputStream();&#xd;
+    os.write(postData.toString().getBytes());&#xd;
+	os.flush();&#xd;
+	&#xd;
+	var responseCode = connection.getResponseCode();&#xd;
+&#xd;
+	log.info(&quot;@@ Criado dado adicional &quot; + objDadoAdicional.nomeCompleto + &quot;:&quot; + responseCode )&#xd;
+}&#xd;
+&#xd;
+function getCreateXML(postData, arrFields, objDadoAdicional, parentDocumentId) {&#xd;
+    postData.append(&apos;&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:ws=&quot;http://ws.dm.ecm.technology.totvs.com/&quot;&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;soapenv:Header/&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;soapenv:Body&gt;&apos;);&#xd;
+            postData.append(&apos;&lt;ws:createCard&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;companyId&gt;&apos; + fluigCompanyId + &apos;&lt;/companyId&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;username&gt;&apos; + fluigUsuario + &apos;&lt;/username&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;password&gt;&apos; + fluigSenha + &apos;&lt;/password&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;card&gt;&apos;);&#xd;
+                    postData.append(&apos;&lt;item&gt;&apos;);&#xd;
+                    for (var i = 0; i &lt; arrFields.length; i++) {&#xd;
+                        postData = treatUnixTimeStamp(&apos;cardData&apos;, arrFields, postData, i);&#xd;
+                        postData.append(&apos;&lt;cardData&gt;&apos;);&#xd;
+                            postData.append(&apos;&lt;field&gt;&apos; + arrFields[i].fieldName + &apos;&lt;/field&gt;&apos;);&#xd;
+                            postData.append(&apos;&lt;value name=&quot;&apos; + arrFields[i].fieldName + &apos;&quot;&gt;&apos; + arrFields[i].fieldValue + &apos;&lt;/value&gt;&apos;);&#xd;
+                        postData.append(&apos;&lt;/cardData&gt;&apos;);&#xd;
+                    }&#xd;
+                        postData.append(setDadosAdicionaisPermissions(arrFields, fluigCompanyId))&#xd;
+                        postData.append(&apos;&lt;parentDocumentId&gt;&apos; + parentDocumentId + &apos;&lt;/parentDocumentId&gt;&apos;);&#xd;
+                        postData.append(&apos;&lt;documentDescription&gt;&apos; + objDadoAdicional.cargoNome + &apos;&lt;/documentDescription&gt;&apos;);&#xd;
+                        postData.append(&apos;&lt;inheritSecurity&gt;true&lt;/inheritSecurity&gt;&apos;)&#xd;
+                    postData.append(&apos;&lt;/item&gt;&apos;);&#xd;
+                postData.append(&apos;&lt;/card&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;/ws:createCard&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;/soapenv:Body&gt;&apos;);&#xd;
+    postData.append(&apos;&lt;/soapenv:Envelope&gt;&apos;);&#xd;
+    return postData;&#xd;
+}&#xd;
+&#xd;
+function treatUnixTimeStamp(type, arrFields, postData, i) {&#xd;
+    if (arrFields[i].fieldName == &quot;dataInicioEmpresa&quot; || arrFields[i].fieldName == &quot;dataNascimento&quot;) {&#xd;
+        var dateUnixTimeStamp = Math.floor(new Date(arrFields[i].fieldValue).getTime()/1000)&#xd;
+        postData.append(&apos;&lt;&apos; + type + &apos;&gt;&apos;);&#xd;
+            postData.append(&apos;&lt;field&gt;&apos; + arrFields[i].fieldName + &apos;Ts&apos; + &apos;&lt;/field&gt;&apos;);&#xd;
+            postData.append(&apos;&lt;value name=&quot;&apos; + arrFields[i].fieldName + &apos;Ts&apos; + &apos;&quot;&gt;&apos; + dateUnixTimeStamp + &apos;&lt;/value&gt;&apos;);&#xd;
+        postData.append(&apos;&lt;/&apos; + type + &apos;&gt;&apos;);    &#xd;
+    }&#xd;
+&#xd;
+    return postData;&#xd;
+}&#xd;
+&#xd;
+function returnFormFields(objDadoAdicional) {    &#xd;
+    var arrFields = [];&#xd;
+    var arrColumns = [&quot;aniversarioDia&quot;, &quot;aniversarioMes&quot;, &quot;celular&quot;, &quot;dataInicioEmpresa&quot;, &quot;cargo&quot;, &quot;dataNascimento&quot;, &quot;departamento&quot;, &quot;email&quot;, &quot;empresa&quot;, &quot;genero&quot;, &quot;idPessoal&quot;, &quot;login&quot;, &quot;matricula&quot;, &quot;nome&quot;, &quot;nomeCargo&quot;, &quot;nomeCompleto&quot;, &quot;nomeDepartamento&quot;, &quot;nomeEmpresa&quot;, &quot;nomeUnidade&quot;, &quot;sobrenome&quot;, &quot;telefone&quot;, &quot;unidade&quot;];&#xd;
+    &#xd;
+    for (var i = 0; i &lt; arrColumns.length; i++) {&#xd;
+        var fieldObj = {&#xd;
+            fieldName: arrColumns[i],&#xd;
+            fieldValue: objDadoAdicional[arrColumns[i]]&#xd;
+        };&#xd;
+        &#xd;
+        arrFields.push(fieldObj);&#xd;
+    }&#xd;
+    &#xd;
+    return arrFields;&#xd;
+}&#xd;
+&#xd;
+function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {&#xd;
+    var matricula = &quot;&quot;;&#xd;
+    for (var i = 0; i &lt; arrFields.length; i++) {&#xd;
+        if (arrFields[i].fieldName == &quot;matricula&quot; &amp;&amp; arrFields[i].fieldValue != &quot;&quot;) {&#xd;
+            matricula = arrFields[i].fieldValue;&#xd;
+        }&#xd;
+    }&#xd;
+&#xd;
+    var xmlMarkup = &quot;&lt;docsecurity&gt;\&#xd;
+        &lt;attributionType&gt;1&lt;/attributionType&gt;\&#xd;
+        &lt;attributionValue&gt;&quot; + matricula + &quot;&lt;/attributionValue&gt;\&#xd;
+        &lt;companyId&gt;&quot; + fluigCompanyId + &quot;&lt;/companyId&gt;\&#xd;
+        &lt;documentId&gt;&lt;/documentId&gt;\&#xd;
+        &lt;downloadEnabled&gt;true&lt;/downloadEnabled&gt;\&#xd;
+        &lt;foo&gt;&lt;/foo&gt;\&#xd;
+        &lt;permission&gt;true&lt;/permission&gt;\&#xd;
+        &lt;securityLevel&gt;2&lt;/securityLevel&gt;\&#xd;
+        &lt;securityVersion&gt;&lt;/securityVersion&gt;\&#xd;
+        &lt;sequence&gt;&lt;/sequence&gt;\&#xd;
+        &lt;showContent&gt;true&lt;/showContent&gt;\&#xd;
+        &lt;version&gt;1000&lt;/version&gt;\&#xd;
+    &lt;/docsecurity&gt;&quot;;&#xd;
+&#xd;
+    return xmlMarkup;&#xd;
 }</eventDescription>
     </WorkflowProcessEvent>
   </list>
@@ -765,7 +805,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>2</version>
+        <version>8</version>
         <linkSequence>12</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -776,7 +816,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>2</version>
+        <version>8</version>
         <linkSequence>12</linkSequence>
         <bendSequence>2</bendSequence>
       </processLinkBendPK>
@@ -787,7 +827,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>2</version>
+        <version>8</version>
         <linkSequence>13</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -800,13 +840,13 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {
       <processStateTriggerPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>2</version>
+        <version>8</version>
         <stateSequence>3</stateSequence>
         <triggerSequence>0</triggerSequence>
       </processStateTriggerPK>
       <runType>6</runType>
       <type>2</type>
-      <timeTrigger>18:0:0</timeTrigger>
+      <timeTrigger>11:55:0</timeTrigger>
       <frequencia>SUN,MON,TUE,WED,THU,FRI,SAT</frequencia>
     </ProcessStateTrigger>
   </list>

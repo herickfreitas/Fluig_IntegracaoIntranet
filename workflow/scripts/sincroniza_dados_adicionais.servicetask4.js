@@ -1,10 +1,10 @@
-var parentDocumentId = 4565; // Dados Adicionais do Usuário
+var parentDocumentId = 0;
 var colleagueId = "";
 var DATASET_NAME = "fdwt_campos_adicionais_usuario";
-var FLUIG_DOMAIN = "http://minhahomolog.cnc.org.br/"; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080
-var fluigCompanyId = "1";
-var fluigUsuario = "integracao";
-var fluigSenha = "!2018@Minha!";
+var FLUIG_DOMAIN = "http://minhahomolog.cnc.org.br"; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080
+var fluigCompanyId = "";
+var fluigUsuario = "";
+var fluigSenha = "";
 
 function servicetask4(attempt, message) {
 	log.info("@@ Inicio do servico sincroniza_dados_adicionais");
@@ -23,42 +23,82 @@ function servicetask4(attempt, message) {
 		// 1. Para cada cargo retornado de seu RP, preencha o objeto 'objDadoAdicional' com as devidas informações
 		// 2. Para cada 'objDadoAdicional' criado, adicione o mesmo no array 'resultSet'
 		// *campo de preenchimento obrigatório
-
-		var resultSet = [];
-
-		// Inicio - Seu trecho de código para incluir os dados adicionais no array resultSet
-			var objDadoAdicional = {
-				aniversarioDia: "05", // 1. aniversarioDia: dia da data de nascimento do colaborador (ex. de preenchimento: '05')
-                aniversarioMes: "12", // 2. aniversarioMes: mes da data de nascimento do colaborador (ex. de preenchimento: '09')
-                celular: "(11) 96580-6589", // 3. celular: celular do colaborador
-                dataInicioEmpresa: "12/05/1995", // 4. dataInicioEmpresa: data de ingresso do colaborador na empresa (ex. de preenchimento: '05/08/1995')
-                cargo: "465465", // 5. cargo: código do cargo do colaborador
-                dataNascimento: "12/04/1980", // 6. dataNascimento: data de nascimento do colaborador (ex. de preenchimento: '05/08/1995')
-                departamento: "654654", // 7. departamento: código do departamento do colaborador
-                email: "contato@mail.com.br", // 8. email: e-mail do colaborador. Caso o colaborador possua um usuário do fluig, preencha com o e-mail de cadastro do fluig, se não possuir preencha com '.'
-                empresa: "7817236", // 9. empresa: código da empresa do colaborador
-                genero: "masculino", // 10. genero: gênero do colaborador (ex. de preenchimento: 'masculino' ou 'feminino')
-                idPessoal: "456.987.456-32", // 11. idPessoal: CPF ou RG do colaborador
-                login: "joao.deus", // 12. login: caso o colaborador possua um usuário do fluig, preencha com o login do fluig, se não possuir preencha com '.'
-                matricula: "joao.deus.1", // 13. matricula: caso o colaborador possua um usuário do fluig, preencha com a matrícula do fluig, se não possuir preencha com '.'
-                nome: "João", // 14. nome: primeiro nome do colaborador
-                nomeCargo: "Desenvolvedor", // 15. nomeCargo: nome do cargo do colaborador
-                nomeCompleto: "João de Deus da Silva", // 16. *nomeCompleto: nome completo do colaborador
-                nomeDepartamento: "TI", // 17. nomeDepartamento: nome do departamento do colaborador
-                nomeEmpresa: "Digte", // 18. nomeEmpresa: nome da empresa do colaborador
-                nomeUnidade: "Unidade Zona Norte", // 19. nomeUnidade: nome da unidade do colaborador
-                sobrenome: "de Deus da Silva", // 20. sobrenome: sobrenome do colaborador
-                telefone: "(11) 6580-6589", // 21. telefone: telefone do colaborador
-                unidade: "312873" // 22. unidade: código da unidade do colaborador
-			};
-
-			resultSet.push(objDadoAdicional);
-		// Fim - Seu trecho de código para incluir os dados adicionais no array resultSet
-
-        // A partir daqui não é necessário alterações no código
-        synchronizeCards(resultSet);
-
-		log.info("@@ Fim do servico sincroniza_dados_adicionais");
+		
+	    // Executando chamada de dataset
+	    var datasetReturn = DatasetFactory.getDataset("_RM_DADOS_ADICIONAIS_NOVOS", null, null, null);
+	    var quantidade = datasetReturn.values.length;
+	    
+	    log.info("@@ _RM_DADOS_ADICIONAIS_NOVOS QTD: "+quantidade);
+		
+	    // Verificando se existem registros
+		if (quantidade > 0 ) {
+			
+			for (var i = 0; i < quantidade; i++)
+			{
+				
+				var aniversarioDia 		= 	datasetReturn.getValue(i, "DATANASCIMENTO_DIA");
+				var aniversarioMes 		= 	datasetReturn.getValue(i, "DATANASCIMENTO_MES");
+				var celular				=	datasetReturn.getValue(i, "TELEFONE");
+				var dataInicioEmpresa	=	datasetReturn.getValue(i, "DATAADMISSAO");
+				var cargo				=	datasetReturn.getValue(i, "CARGO_COD");
+				var dataNascimento		=	datasetReturn.getValue(i, "DATANASCIMENTO");
+				var departamento		=	datasetReturn.getValue(i, "DEPARTAMENTO");
+				var email				=	datasetReturn.getValue(i, "EMAIL");
+				var empresa				=	"1";
+				var genero				=	datasetReturn.getValue(i, "GENERO");
+				var idPessoal			=	datasetReturn.getValue(i, "CPF");
+				var login				=	datasetReturn.getValue(i, "CODUSUARIO");
+				var matricula			=	datasetReturn.getValue(i, "CODUSUARIO");
+				var nome				=	datasetReturn.getValue(i, "NOME_PRIMEIRO");
+				var nomeCargo			=	datasetReturn.getValue(i, "CARGO_NOME");
+				var nomeCompleto		=	datasetReturn.getValue(i, "NOME_COMPLETO");
+				var nomeDepartamento	=	datasetReturn.getValue(i, "NOME_DEPARTAMENTO");
+				var nomeEmpresa			=	"CNC";	
+				var nomeUnidade			=	datasetReturn.getValue(i, "NOME_UNIDADE");
+				var sobrenome			=	datasetReturn.getValue(i, "NOME_SOBRENOME");
+				var telefone			=	datasetReturn.getValue(i, "TELEFONE");
+				var unidade				=	datasetReturn.getValue(i, "EMPRESA");
+				
+				var resultSet = [];
+	
+				// Inicio - Seu trecho de código para incluir os dados adicionais no array resultSet
+				var objDadoAdicional = {
+					aniversarioDia: aniversarioDia, //"05", // 1. aniversarioDia: dia da data de nascimento do colaborador (ex. de preenchimento: '05')
+	                aniversarioMes: aniversarioMes, //"12", // 2. aniversarioMes: mes da data de nascimento do colaborador (ex. de preenchimento: '09')
+	                celular: celular, //"(11) 96580-6589", // 3. celular: celular do colaborador
+	                dataInicioEmpresa: dataInicioEmpresa, // "12/05/1995", // 4. dataInicioEmpresa: data de ingresso do colaborador na empresa (ex. de preenchimento: '05/08/1995')
+	                cargo: cargo, // "465465", // 5. cargo: código do cargo do colaborador
+	                dataNascimento: dataNascimento, // "12/04/1980", // 6. dataNascimento: data de nascimento do colaborador (ex. de preenchimento: '05/08/1995')
+	                departamento: departamento, //"654654", // 7. departamento: código do departamento do colaborador
+	                email: email, //"contato@mail.com.br", // 8. email: e-mail do colaborador. Caso o colaborador possua um usuário do fluig, preencha com o e-mail de cadastro do fluig, se não possuir preencha com '.'
+	                empresa: empresa, //"7817236", // 9. empresa: código da empresa do colaborador
+	                genero: genero, //"masculino", // 10. genero: gênero do colaborador (ex. de preenchimento: 'masculino' ou 'feminino')
+	                idPessoal: idPessoal, //"456.987.456-32", // 11. idPessoal: CPF ou RG do colaborador
+	                login: login, //"joao.deus", // 12. login: caso o colaborador possua um usuário do fluig, preencha com o login do fluig, se não possuir preencha com '.'
+	                matricula: matricula, //"joao.deus.1", // 13. matricula: caso o colaborador possua um usuário do fluig, preencha com a matrícula do fluig, se não possuir preencha com '.'
+	                nome: nome, //"João", // 14. nome: primeiro nome do colaborador
+	                nomeCargo: nomeCargo, //"Desenvolvedor", // 15. nomeCargo: nome do cargo do colaborador
+	                nomeCompleto: nomeCompleto, //"João de Deus da Silva", // 16. *nomeCompleto: nome completo do colaborador
+	                nomeDepartamento: nomeDepartamento, //"TI", // 17. nomeDepartamento: nome do departamento do colaborador
+	                nomeEmpresa: nomeEmpresa, //"Digte", // 18. nomeEmpresa: nome da empresa do colaborador
+	                nomeUnidade: nomeUnidade, //"Unidade Zona Norte", // 19. nomeUnidade: nome da unidade do colaborador
+	                sobrenome: sobrenome, //"de Deus da Silva", // 20. sobrenome: sobrenome do colaborador
+	                telefone: telefone, //"(11) 6580-6589", // 21. telefone: telefone do colaborador
+	                unidade: unidade //"312873" // 22. unidade: código da unidade do colaborador
+				};
+				
+				log.info("@@ _RM_DADOS_ADICIONAIS_NOVOS resultSet: "+resultSet);
+	
+				resultSet.push(objDadoAdicional);
+				// Fim - Seu trecho de código para incluir os dados adicionais no array resultSet
+	
+		        // A partir daqui não é necessário alterações no código
+		        synchronizeCards(resultSet);
+	
+		        log.info("@@ Fim do servico sincroniza_dados_adicionais");
+		   }
+		
+		}
 
 	} catch (e) {
 		log.info("@@ Erro, estourou uma excecao");
