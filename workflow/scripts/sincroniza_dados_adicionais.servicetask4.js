@@ -1,7 +1,7 @@
 var parentDocumentId = 0;
 var colleagueId = "";
 var DATASET_NAME = "fdwt_campos_adicionais_usuario";
-var FLUIG_DOMAIN = "http://minhahomolog.cnc.org.br"; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080
+var FLUIG_DOMAIN = "http://minha.cnc.org.br"; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080
 var fluigCompanyId = "";
 var fluigUsuario = "";
 var fluigSenha = "";

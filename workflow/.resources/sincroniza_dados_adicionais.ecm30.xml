@@ -15,7 +15,7 @@
     <snapshotFrequency>0</snapshotFrequency>
     <baseDay>0</baseDay>
     <baseMonth>0</baseMonth>
-    <periodId>Expediente_CNC_10as19</periodId>
+    <periodId>Default</periodId>
     <uniqueCardVersion>false</uniqueCardVersion>
     <keyWord></keyWord>
     <complementsLevel>1</complementsLevel>
@@ -29,7 +29,7 @@
     <processDefinitionVersionPK>
       <companyId>1</companyId>
       <processId>Sincroniza os dados adicionais dos colaboradores</processId>
-      <version>8</version>
+      <version>3</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>0</formId>
@@ -437,7 +437,7 @@
       <eventDescription>var parentDocumentId = 0;&#xd;
 var colleagueId = &quot;&quot;;&#xd;
 var DATASET_NAME = &quot;fdwt_campos_adicionais_usuario&quot;;&#xd;
-var FLUIG_DOMAIN = &quot;http://minhahomolog.cnc.org.br&quot;; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080&#xd;
+var FLUIG_DOMAIN = &quot;http://minha.cnc.org.br&quot;; // Insira o domínio do ambiente fluig alvo, seguindo o exemplo: http://dev2.digte.com.br:8080&#xd;
 var fluigCompanyId = &quot;&quot;;&#xd;
 var fluigUsuario = &quot;&quot;;&#xd;
 var fluigSenha = &quot;&quot;;&#xd;
@@ -771,7 +771,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {&#xd;
       <width>31</width>
       <positionX>100</positionX>
       <positionY>120</positionY>
-      <stateName>Sincroniza Cargos</stateName>
+      <stateName>Sincroniza dados adicionais</stateName>
       <type>1</type>
       <parentSequence>0</parentSequence>
       <swimLanePK>
@@ -805,7 +805,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>8</version>
+        <version>3</version>
         <linkSequence>12</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -816,7 +816,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>8</version>
+        <version>3</version>
         <linkSequence>12</linkSequence>
         <bendSequence>2</bendSequence>
       </processLinkBendPK>
@@ -827,7 +827,7 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>8</version>
+        <version>3</version>
         <linkSequence>13</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -840,13 +840,13 @@ function setDadosAdicionaisPermissions(arrFields, fluigCompanyId) {&#xd;
       <processStateTriggerPK>
         <companyId>1</companyId>
         <processId>sincroniza_dados_adicionais</processId>
-        <version>8</version>
+        <version>3</version>
         <stateSequence>3</stateSequence>
         <triggerSequence>0</triggerSequence>
       </processStateTriggerPK>
       <runType>6</runType>
       <type>2</type>
-      <timeTrigger>11:55:0</timeTrigger>
+      <timeTrigger>16:0:0</timeTrigger>
       <frequencia>SUN,MON,TUE,WED,THU,FRI,SAT</frequencia>
     </ProcessStateTrigger>
   </list>
