@@ -1,0 +1,77 @@
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="/portal/resources/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/portal/resources/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script src="/webdesk/vcXMLRPC.js"></script>	
+</head>
+<body>
+<div class="fluig-style-guide">
+<form name="Form_verifica_func_desligados" role="form">
+
+<input type='hidden' name='qtdColaboradores'    id='qtdColaboradores' />
+<input type='hidden' name='numeroSolicitacao'   id='numeroSolicitacao' />
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	    <h3 class="panel-title">Colaboradores demitidos</h3>
+	</div>
+	<div class="panel-body">
+	    <div id="target"></div>
+	</div>
+</div>  	
+
+
+</form>
+</div>
+
+        <script type="text/template" id="templateColaboradores" class="templateColaboradores"> 
+        <tr>
+            <td>{{Indice}}</td>
+            <td>{{CodUsuario}}</td>
+            <td>{{Chapa}}</td>
+        </tr>        
+        </script>
+
+</body>
+
+<script>
+
+
+var datasetReturned = DatasetFactory.getDataset("_RM_FUNC_DEMITIDOS", null, null, null);
+var records = datasetReturned.values;
+
+//Montando uma tabela para visualiza��o do dataset
+mydata = [];
+for (var index in records) {
+    var record = records[index];
+    mydata.push({
+        Indice: parseFloat(index) + 1, //Criando um contador para indice
+        CodUsuario: record.CODUSUARIO,
+        Chapa: record.CHAPA,
+        noResults: false
+    });
+}
+
+//preenchimento da tabela do formulario 
+var myTable = FLUIGC.datatable('#target', {
+    dataRequest: mydata,
+    renderContent: '.templateColaboradores',
+    header: [
+        {'title': 'Indice'},
+        {'title': 'CodUsuario'},
+        {'title': 'Chapa'}
+    ]
+}, function(err, data) {
+    // DO SOMETHING (error or success)
+});
+
+
+
+</script>
+
+
+</html>

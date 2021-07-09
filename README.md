@@ -10,6 +10,7 @@ Este repositório é dedicado aos processos de integração entre os RPs e os fo
 3. Sincronização de Unidades: sincroniza_unidades
 4. Sincronização de Departamentos: sincroniza_departamentos
 5. Sincronização de Dados Adicionais do Usuário: sincroniza_dados_adicionais
+5. Workflow que faz uma compara��o entre os cadastros de usu�rios do Fluig e RM, quando divergente o papel Admin ser� acionado: sincroniza_cadastro_usuarios
 
 ## Configuração
 1. Faça um fork deste repositório

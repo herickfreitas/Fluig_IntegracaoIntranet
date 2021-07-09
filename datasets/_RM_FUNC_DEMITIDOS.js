@@ -4,9 +4,11 @@ function createDataset(fields, constraints, sortFields) {
     var ic = new javax.naming.InitialContext();
     var ds = ic.lookup(dataSource);
     var created = false;
-          
-    var myQuery = "select * from _Fluig_DADOS_ADICIONAIS_NOVOS" ;
-    log.info("_RM_DADOS_ADICIONAIS_NOVOS QUERY: " + myQuery);
+
+    
+    // Dataset irá retornar usuários demitidos no RM e ativos no Fluig
+    var myQuery = "select * from _Fluig_DEMITIDOS" ;
+    log.info("_RM_FUNC_DEMITIDOS QUERY: " + myQuery);
     try {
         var conn = ds.getConnection();
         var stmt = conn.createStatement();
